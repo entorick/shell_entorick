@@ -23,6 +23,7 @@ find_git_branch () {
 }
 PROMPT_COMMAND="find_git_branch; $PROMPT_COMMAND"
 export PS1="\[\e[32;1m\]\u\[\e[40;1m\]@\[\e[36;1m\]\H:\w\[\e[0;m\]$ \[\e[32;1m\]\$git_branch\n-->"
+#export PS1="\[\e[32;1m\]主位面\[\e[40;1m\]@\[\e[36;1m\]\H:\w\[\e[0;m\]$ \[\e[32;1m\]\$git_branch\n-->"
 
 #startecho 看另外的代码
 export DISPLAY=:0 && /bin/sh /home/work/local/bin/startecho.sh
