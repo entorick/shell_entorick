@@ -1,0 +1,47 @@
+#!/usr/bin/expect
+
+
+proc getScriptDirectory {} {
+    set dispScriptFile [file normalize [info script]]
+    set scriptFolder [file dirname $dispScriptFile]
+    return $scriptFolder
+}
+
+set scriptDir [getScriptDirectory]
+
+if {$argc!=1} {
+    set fid [open $scriptDir/machine.txt r]
+    while {[gets $fid line] >= 0} {
+        set idx [lindex $line 0]
+        set ip [lindex $line 1]
+        set user [lindex $line 2]
+        set pass [lindex $line 3]
+        set desc [lindex $line 4]
+
+        puts "$idx) $ip\t$desc"
+    }
+    close $fid
+
+    send "输入一个以上值\n"
+}
+set num [lindex $argv 0]
+
+
+set fid [open $scriptDir/machine.txt r]
+while {[gets $fid line] >= 0} {
+    set idx [lindex $line 0]
+    set ip [lindex $line 1]
+    set user [lindex $line 2]
+    set pass [lindex $line 3]
+    set desc [lindex $line 4]
+
+    if {"$num" == $idx} {
+        send "\n$desc\n"
+        spawn ssh $user@$ip
+        expect "*password:"
+        send "$pass\r"
+        interact
+    }
+
+}
+close $fid
